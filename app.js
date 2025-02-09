@@ -5,8 +5,8 @@ const app = express();
 const port = 3000;
 
 // Middleware
-app.use(express.json()); // Parse JSON request body
-app.use(cors()); // Allow cross-origin requests from Server 1
+app.use(express.json()); 
+app.use(cors());
 
 // Load dictionary from file
 const dictionaryFile = 'dictionary.json';
@@ -27,6 +27,10 @@ function isValidWord(word) {
 app.get('/api/definitions/', (req, res) => {
     requestCount++;
     const word = req.query.word;
+
+    if (!word) {
+        return res.json(dictionary);
+    }
 
     if (!isValidWord(word)) {
         return res.status(400).json({
